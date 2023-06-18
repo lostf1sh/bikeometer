@@ -3,7 +3,7 @@
     "short_name": "Bike Tool",
     "icons": [
       {
-        "src": "icon.png",
+        "src": "bike.jpg",
         "sizes": "192x192",
         "type": "image/png"
       }
