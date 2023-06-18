@@ -82,19 +82,27 @@
       map.entities.push(bikePathLayer);
     }
 
-    function successCallback(position) {
-  var latitude = position.coords.latitude;
-  var longitude = position.coords.longitude;
+   function successCallback(position) {
+  // Check if location permission is granted
+  if (navigator.permissions && navigator.permissions.query) {
+    navigator.permissions.query({ name: 'geolocation' }).then(function(permissionStatus) {
+      if (permissionStatus.state !== 'granted') {
+        console.error('Location permission not granted');
+        // Handle the lack of permission here
+        return;
+      }
 
-  map.setView({ center: new Microsoft.Maps.Location(latitude, longitude), zoom: 14 });
+      var latitude = position.coords.latitude;
+      var longitude = position.coords.longitude;
 
-  updateBikeRoute(latitude, longitude);
+      updateDistance(latitude, longitude);
+    });
+  } else {
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
 
-  document.getElementById("latitude").textContent = "Latitude: " + latitude.toFixed(6);
-  document.getElementById("longitude").textContent = "Longitude: " + longitude.toFixed(6);
-  
-  var speed = position.coords.speed || 0;
-  document.getElementById("speed").textContent = "Speed: " + speed.toFixed(2) + " km/h";
+    updateDistance(latitude, longitude);
+  }
 }
 
 
