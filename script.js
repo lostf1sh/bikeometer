@@ -61,18 +61,18 @@ function updateDistance(newLatitude, newLongitude) {
 }
 
 // Function to update the UI with the statistics
-// Function to update the UI with the statistics
 function updateUI() {
-    var distanceInMeters = totalDistance * 1000;
-    var kilometers = Math.floor(distanceInMeters / 1000);
-    var meters = Math.floor(distanceInMeters % 1000);
-  
-    var distanceText = kilometers + " km " + meters + " m";
-    document.getElementById("distance").textContent = distanceText;
-    document.getElementById("calories").textContent = totalCalories.toFixed(2) + " calories";
-    document.getElementById("average-speed").textContent = (totalSpeed / readingsCount).toFixed(2) + " km/h";
-  }
-  
+  var distanceInMeters = totalDistance * 1000;
+  var kilometers = Math.floor(distanceInMeters / 1000);
+  var meters = Math.floor(distanceInMeters % 1000);
+
+  var speed = totalSpeed / readingsCount;
+
+  var distanceText = kilometers + " km " + meters + " m";
+  document.getElementById("distance").textContent = distanceText;
+  document.getElementById("calories").textContent = totalCalories.toFixed(2) + " calories";
+  document.getElementById("average-speed").textContent = speed.toFixed(2) + " km/h";
+}
 
 // Function to handle successful location retrieval
 function successCallback(position) {
