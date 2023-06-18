@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GPS Bike Tool</title>
+  <link rel="manifest" href="/manifest.json">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #2E3440;
+      color: #ECEFF4;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 30px;
+      font-weight: 300;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    span#distance {
+      color: #88C0D0;
+    }
+
+    span#calories {
+      color: #BF616A;
+    }
+
+    span#average-speed {
+      color: #A3BE8C;
+    }
+
+    #map {
+      height: 400px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>GPS Bike Tool</h1>
+  <div id="map"></div>
+  <p id="latitude">Latitude: </p>
+  <p id="longitude">Longitude: </p>
+  <p id="speed">Speed: </p>
+  <p>Distance: <span id="distance">0 km 0 m</span></p>
+  <p>Burned Calories: <span id="calories">0 calories</span></p>
+  <p>Average Speed: <span id="average-speed">0 km/h</span></p>
+
+  <script src="https://www.bing.com/api/maps/mapcontrol?key=AoZ7Kpnq9PWlCBEwSlWDr2rxx8NmnNkGaJGqmFNRXmKi9lFP0z05ixOBRp-Xvf2_&callback=initMap" async defer></script>
+  <script>
+    var map;
+    var bikePath = [];
+
+    function initMap() {
+      map = new Microsoft.Maps.Map('#map', {
+        credentials: 'AoZ7Kpnq9PWlCBEwSlWDr2rxx8NmnNkGaJGqmFNRXmKi9lFP0z05ixOBRp-Xvf2_'
+      });
+
+      var polylineOptions = {
+        strokeColor: '#A3BE8C',
+        strokeThickness: 4
+      };
+
+      var bikePathLayer = new Microsoft.Maps.Polyline(bikePath, polylineOptions);
+      map.entities.push(bikePathLayer);
+    }
+
+    function updateBikeRoute(latitude, longitude) {
+      bikePath.push(new Microsoft.Maps.Location(latitude, longitude));
+      map.entities.clear();
+      var bikePathLayer = new Microsoft.Maps.Polyline(bikePath, {
+        strokeColor: '#A3BE8C',
+        strokeThickness: 4
+      });
+      map.entities.push(bikePathLayer);
+    }
+
+    function successCallback(position) {
+      var latitude = position.coords.latitude;
+      var longitude = position.coords.longitude;
+
+      map.setView({ center: new Microsoft.Maps.Location(latitude, longitude), zoom: 14 });
+
+      updateBikeRoute(latitude, longitude);
+
+      document.getElementById("latitude").textContent = "Latitude: " + latitude.toFixed(6);
+      document.getElementById("longitude").textContent = "Longitude: " + longitude.toFixed(6);
+    }
+
+    function errorCallback(error) {
+      console.error("Oh snap! An error occurred: " + error.message);
+    }
+
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(successCallback, errorCallback, { enableHighAccuracy: true });
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #2E3440;
+  color: #ECEFF4;
+  padding: 20px;
+}
+
+.container {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 30px;
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+
+.stat {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+#distance {
+  color: #88C0D0;
+}
+
+#calories {
+  color: #BF616A;
+}
+
+#average-speed {
+  color: #A3BE8C;
+}
