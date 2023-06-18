@@ -83,16 +83,20 @@
     }
 
     function successCallback(position) {
-      var latitude = position.coords.latitude;
-      var longitude = position.coords.longitude;
+  var latitude = position.coords.latitude;
+  var longitude = position.coords.longitude;
 
-      map.setView({ center: new Microsoft.Maps.Location(latitude, longitude), zoom: 14 });
+  map.setView({ center: new Microsoft.Maps.Location(latitude, longitude), zoom: 14 });
 
-      updateBikeRoute(latitude, longitude);
+  updateBikeRoute(latitude, longitude);
 
-      document.getElementById("latitude").textContent = "Latitude: " + latitude.toFixed(6);
-      document.getElementById("longitude").textContent = "Longitude: " + longitude.toFixed(6);
-    }
+  document.getElementById("latitude").textContent = "Latitude: " + latitude.toFixed(6);
+  document.getElementById("longitude").textContent = "Longitude: " + longitude.toFixed(6);
+  
+  var speed = position.coords.speed || 0;
+  document.getElementById("speed").textContent = "Speed: " + speed.toFixed(2) + " km/h";
+}
+
 
     function errorCallback(error) {
       console.error("Oh snap! An error occurred: " + error.message);
